@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beatrix Ziekenhuis - Beheerders Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .admin-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .question-form {
+            background-color: var(--lichtblauw);
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--donkerblauw);
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid var(--donkerblauw);
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+        }
+
+        .questions-list {
+            background-color: var(--wit);
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .question-item {
+            padding: 1rem;
+            border-bottom: 1px solid var(--lichtblauw);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .question-item:last-child {
+            border-bottom: none;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .edit-button,
+        .delete-button {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .edit-button {
+            background-color: var(--highlight-oranje);
+            color: var(--tekst-donker);
+        }
+
+        .delete-button {
+            background-color: #ff4444;
+            color: var(--tekst-donker);
+        }
+
+        .save-button {
+            background-color: var(--donkerblauw);
+            color: var(--tekst-donker);
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .save-button:hover {
+            background-color: var(--highlight-oranje);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Beatrix Ziekenhuis Groningen</h1>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="index.html">Terug naar Home</a></li>
+            <li><a href="#" id="logoutButton">Uitloggen</a></li>
+        </ul>
+    </nav>
+
+    <main class="admin-container">
+        <div class="admin-header">
+            <h2>Vragen Beheren</h2>
+            <button class="save-button" id="addQuestionButton">Nieuwe Vraag Toevoegen</button>
+        </div>
+
+        <div class="question-form" id="questionForm" style="display: none;">
+            <h3>Vraag Toevoegen/Bewerken</h3>
+            <form id="questionFormElement">
+                <div class="form-group">
+                    <label for="questionTitle">Titel</label>
+                    <input type="text" id="questionTitle" required>
+                </div>
+                <div class="form-group">
+                    <label for="questionText">Vraag</label>
+                    <textarea id="questionText" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="questionCategory">Categorie</label>
+                    <input type="text" id="questionCategory" required>
+                </div>
+                <button type="submit" class="save-button">Opslaan</button>
+            </form>
+        </div>
+
+        <div class="questions-list" id="questionsList">
+            <!-- Questions will be loaded here dynamically -->
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Beatrix Ziekenhuis Groningen. Alle rechten voorbehouden.</p>
+    </footer>
+
+    <script>
+        // Sample data structure (in a real application, this would come from a database)
+        let questions = [
+            {
+                id: 1,
+                title: "Wat zijn de openingstijden?",
+                text: "Wat zijn de openingstijden van het ziekenhuis?",
+                category: "Algemeen"
+            },
+            {
+                id: 2,
+                title: "Parkeren",
+                text: "Waar kan ik parkeren bij het ziekenhuis?",
+                category: "Faciliteiten"
+            }
+        ];
+
+        // DOM Elements
+        const questionForm = document.getElementById('questionForm');
+        const questionFormElement = document.getElementById('questionFormElement');
+        const questionsList = document.getElementById('questionsList');
+        const addQuestionButton = document.getElementById('addQuestionButton');
+        const logoutButton = document.getElementById('logoutButton');
+
+        // Display questions
+        function displayQuestions() {
+            questionsList.innerHTML = '';
+            questions.forEach(question => {
+                const questionElement = document.createElement('div');
+                questionElement.className = 'question-item';
+                questionElement.innerHTML = `
+                    <div>
+                        <h3>${question.title}</h3>
+                        <p>${question.text}</p>
+                        <small>Categorie: ${question.category}</small>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="edit-button" onclick="editQuestion(${question.id})">Bewerken</button>
+                        <button class="delete-button" onclick="deleteQuestion(${question.id})">Verwijderen</button>
+                    </div>
+                `;
+                questionsList.appendChild(questionElement);
+            });
+        }
+
+        // Add new question
+        addQuestionButton.addEventListener('click', () => {
+            questionForm.style.display = 'block';
+            questionFormElement.reset();
+        });
+
+        // Edit question
+        function editQuestion(id) {
+            const question = questions.find(q => q.id === id);
+            if (question) {
+                document.getElementById('questionTitle').value = question.title;
+                document.getElementById('questionText').value = question.text;
+                document.getElementById('questionCategory').value = question.category;
+                questionForm.style.display = 'block';
+            }
+        }
+
+        // Delete question
+        function deleteQuestion(id) {
+            if (confirm('Weet u zeker dat u deze vraag wilt verwijderen?')) {
+                questions = questions.filter(q => q.id !== id);
+                displayQuestions();
+            }
+        }
+
+        // Save question
+        questionFormElement.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const title = document.getElementById('questionTitle').value;
+            const text = document.getElementById('questionText').value;
+            const category = document.getElementById('questionCategory').value;
+
+            // In a real application, this would save to a database
+            const newQuestion = {
+                id: questions.length + 1,
+                title,
+                text,
+                category
+            };
+            questions.push(newQuestion);
+            displayQuestions();
+            questionForm.style.display = 'none';
+        });
+
+        // Logout
+        logoutButton.addEventListener('click', () => {
+            // In a real application, this would clear the session
+            window.location.href = 'login.html';
+        });
+
+        // Initial display
+        displayQuestions();
+    </script>
+</body>
+</html> 
