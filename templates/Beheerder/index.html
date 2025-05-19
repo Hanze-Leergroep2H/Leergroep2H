@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Beheerder</h1>
+<a href="{{ url_for('Beheerder.add') }}" class="btn btn-primary mb-3">Beheerder toevoegen</a>
+<ul>
+  {% for Beheerder in Beheerders %}
+  <li>{{ Beheerder.naam }}
+    <a href="{{ url_for('Beheerder.edit', id=Beheerder.id) }}">Bewerken</a>
+    <form action="{{ url_for('Beheerder.delete', id=Beheerder.id) }}" method="post" style="display:inline;">
+      <button type="submit" class="btn btn-link">Verwijderen</button>
+    </form>
+  </li>
+  {% endfor %}
+</ul>
+{% endblock %}

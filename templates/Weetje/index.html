@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Weetjes</h1>
+<a href="{{ url_for('Weetje.add') }}" class="btn btn-primary mb-3">Weetje toevoegen</a>
+<ul>
+  {% for Weetje in Weetjes %}
+  <li>{{ Weetje.Weetje }} (Behandeling: {{ Weetje.Behandeling.behandelingnaam }})
+    <a href="{{ url_for('Weetje.edit', id=Weetje.id) }}">Bewerken</a>
+    <form action="{{ url_for('Weetje.delete', id=Weetje.id) }}" method="post" style="display:inline;">
+      <button type="submit" class="btn btn-link">Verwijderen</button>
+    </form>
+  </li>
+  {% endfor %}
+</ul>
+{% endblock %}

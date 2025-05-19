@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ title or 'Flask Applicatie' }}</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+    .navbar {
+        background-color: #477fef; /* Oranje */
+    }
+    .navbar-brand, .nav-link {
+        color: white !important;
+    }
+    .nav-link:hover {
+        background-color: white;
+        color: #477fef !important; /* Oranje tekst */
+    }
+    .container {
+        max-width: 1200px;
+    }
+    footer {
+        background-color: #477fef; /* Oranje */
+        color: white;
+        text-align: center;
+        padding: 10px 0;
+        margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+<!-- Navigatie -->
+<nav class="navbar navbar-expand-lg navbar-light">
+  <div class="container">
+    <a class="navbar-brand" href="{{ url_for('index') }}">Reatrix - Beatrix kinderziekenhuis Groningen</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('Behandeling.index') }}">Behandelingen</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('Weetje.index') }}">Weetjes</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('Behandeling.overzicht') }}">Overzicht</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Flash-meldingen -->
+<div class="container mt-4">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+  {% for category, message in messages %}
+  <div class="alert alert-{{ 'warning' if category == 'danger' else category }} alert-dismissible fade show" role="alert">
+    {{ message }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  {% endfor %}
+  {% endif %}
+  {% endwith %}
+  {% block content %}{% endblock %}
+</div>
+
+<!-- Footer -->
+<footer>
+  <p>&copy; 2025 Reatrix - Beatrix kinderziekenhuis Groningen. Alle rechten voorbehouden.</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <h1 class="my-4 text-center text-primary">Overzicht per Behandeling</h1>
+    {% for Behandeling in Behandelingen %}
+    <div class="card mb-4 shadow-sm">
+        <div class="card-header bg-info text-white">
+            <h2 class="mb-0">
+                {{ Behandeling.behandelingnaam }} ({{ Behandeling.Categorie }})
+                {% if Behandeling.Beheerder %}
+                    - Beheerder: {{ Behandeling.Beheerder.naam }}
+                {% else %}
+                    - Geen Beheerder
+                {% endif %}
+            </h2>
+        </div>
+        <div class="card-body">
+            {% if Behandeling.Weetje %}
+            <table class="table table-striped">
+                <thead class="table-dark">
+                <tr>
+                    <th>#</th>
+                    <th>Weetje</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for idx, Weetje in enumerate(Behandeling.Weetje|sort(attribute='Weetje'), start=1) %}
+                <tr>
+                    <td>{{ idx }}</td>
+                    <td>{{ Weetje.Weetje }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p class="text-muted">Geen Weetjes gekoppeld aan deze Behandeling.</p>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
