@@ -4,6 +4,9 @@ from wtforms.validators import DataRequired, Optional
 
 from models import Beheerder
 
+# TODO when a beheerder creates a behandeling. dan moet de huidige user als beheerder worden teoegeveogd ipv dat je er uit moet kiezen.
+# remove select option: replace with current_user.id
+
 class BehandelingForm(FlaskForm):
     behandelingnaam = StringField('behandelingnaam', validators=[DataRequired()])
     Categorie = SelectField(
