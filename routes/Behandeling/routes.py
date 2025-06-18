@@ -27,12 +27,12 @@ def add():
 @Behandeling_bp.route('/edit/<int:id>', methods=['GET', 'POST'])
 @login_required
 def edit(id):
-    Behandeling = Behandeling.query.get_or_404(id)
-    form = BehandelingForm(obj=Behandeling)
+    behandeling = Behandeling.query.get_or_404(id)  # << andere naam!
+    form = BehandelingForm(obj=behandeling)
     if form.validate_on_submit():
-        Behandeling.behandelingnaam = form.behandelingnaam.data
-        Behandeling.Categorie = form.Categorie.data
-        Behandeling.Beheerder.id=form.Beheerder_id.data
+        behandeling.behandelingnaam = form.behandelingnaam.data
+        behandeling.Categorie = form.Categorie.data
+        behandeling.Beheerder_id = form.Beheerder_id.data  # << correcte toewijzing
         db.session.commit()
         flash('Behandeling bijgewerkt!', 'success')
         return redirect(url_for('Behandeling.index'))

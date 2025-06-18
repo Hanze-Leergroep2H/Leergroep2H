@@ -39,10 +39,10 @@ if __name__ == '__main__':
     with app.app_context():
         db.create_all()
         
-    # app.run(debug=True, host='0.0.0.0', port=3000, threaded=False, use_reloader=False)
+    app.run(debug=True, host='0.0.0.0', port=3000, threaded=True, use_reloader=True)
 
 
     # # ——— gevent WSGI server ——————————————————————————————————————————————
-    print("🚀 Starting gevent WSGI server on 0.0.0.0:3000")
-    http_server = WSGIServer(('0.0.0.0', 3000), app)
-    http_server.serve_forever()
+    # print("🚀 Starting gevent WSGI server on 0.0.0.0:3000")
+    # http_server = WSGIServer(('0.0.0.0', 3000), app)
+    # http_server.serve_forever()

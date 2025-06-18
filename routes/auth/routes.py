@@ -20,7 +20,8 @@ def register():
             username=form.username.data,
             email=form.email.data,
             password=hashed_password,
-            role=Role(form.role.data)
+            role=Role('admin')
+            # role=Role(form.role.data)
         )
         db.session.add(new_user)
         db.session.commit()
