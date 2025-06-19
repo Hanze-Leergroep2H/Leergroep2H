@@ -4,15 +4,16 @@
 <div class="container text-center mt-5">
   <!-- Vraag-scherm -->
   <div id="q-screen">
-    <h2>Vraag {{ question.id }}</h2>
+    <h2>Wist je dat?:</h2>
     <p class="lead">{{ question.Weetje }}</p>
-    <p><em>Wacht op je antwoord vanaf de Pico…</em></p>
+    <p><em>Wacht op je antwoord vanaf de Reatrix</em></p>
   </div>
 
   <!-- Resultaat-scherm (verborgen totdat antwoord binnenkomt) -->
   <div id="r-screen" style="display:none;">
     <h2 id="result-text" class="mt-4"></h2>
-    <p id="chosen" class="mb-4"></p>
+    <p id="chosen" class="mb-2"></p>
+    <p id="uitleg" class="mt-3 text-muted"></p>
     <a id="next-btn" href="{{ url_for('question.question') }}">
       <button class="btn btn-primary btn-lg">Volgende vraag</button>
     </a>
@@ -30,12 +31,15 @@
           document.getElementById('q-screen').style.display = 'none';
           // Resultaat tonen
           document.getElementById('r-screen').style.display = 'block';
+
           document.getElementById('result-text').textContent =
-            data.is_good
-              ? '✅ Goed gedaan!'
-              : '❌ Jammer, niet goed.';
+            data.is_good ? '✅ Goed gedaan!' : '❌ Jammer, niet goed.';
+
           document.getElementById('chosen').textContent =
             `Je koos “${data.response}”.`;
+
+          document.getElementById('uitleg').textContent =
+            data.uitleg ? `Uitleg: ${data.uitleg}` : '';
         }
       })
       .catch(console.error);
@@ -44,4 +48,8 @@
   // Start polling elke seconde
   setInterval(poll, 1000);
 </script>
+<footer>
+  <p><em>De groene knop betekent: waar.</em></p>
+  <p><em>De rode knop betekent: Niet waar.</em></p>
+</footer>
 {% endblock %}

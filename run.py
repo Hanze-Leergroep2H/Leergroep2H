@@ -34,6 +34,10 @@ def index():
     return render_template('index.html')
 
 
+def create_app():
+    return app
+
+
 if __name__ == '__main__':
     # ensure your SQLite tables exist
     with app.app_context():

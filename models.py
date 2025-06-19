@@ -46,5 +46,6 @@ class Behandeling(db.Model):
 class Weetje(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     Weetje = db.Column(db.String(50), nullable=False)
+    uitleg = db.Column(db.String, nullable=True)
     gender = db.Column(db.String(10), nullable=False)
     Behandeling_id = db.Column(db.Integer, db.ForeignKey('behandeling.id'), nullable=False)

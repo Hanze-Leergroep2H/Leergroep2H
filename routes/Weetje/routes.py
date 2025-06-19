@@ -17,7 +17,7 @@ def index():
 def add():
     form = WeetjeForm()
     if form.validate_on_submit():
-        WeetjeCreated = Weetje(Weetje=form.Weetje.data, gender=form.gender.data, Behandeling_id=form.Behandeling_id.data)
+        WeetjeCreated = Weetje(Weetje=form.Weetje.data, uitleg=form.uitleg.data, gender=form.gender.data, Behandeling_id=form.Behandeling_id.data)
         db.session.add(WeetjeCreated)
         db.session.commit()
         flash('Weetje toegevoegd!', 'success')
@@ -31,6 +31,7 @@ def edit(id):
     form = WeetjeForm(obj=Weetje1)
     if form.validate_on_submit():
         Weetje1.Weetje = form.Weetje.data
+        Weetje1.uitleg = form.uitleg.data
         Weetje1.gender = form.gender.data
         Weetje1.Behandeling_id = form.Behandeling_id.data
         db.session.commit()
