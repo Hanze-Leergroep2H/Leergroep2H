@@ -1,5 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for, request, jsonify
 from models import Weetje
+import random
+
 
 Question_bp = Blueprint('question', __name__, template_folder='templates')
 
@@ -11,15 +13,30 @@ current_is_good = None
 answered_this_round = False
 # ────────────────────────────────────────────────────────────────
 
+# @Question_bp.route('/start')
+# def start():
+#     global question_ids, current_idx, current_answer, current_is_good, answered_this_round
+#     question_ids = [w.id for w in Weetje.query.order_by(Weetje.id).all()]
+#     current_idx = 0
+#     current_answer = None
+#     current_is_good = None
+#     answered_this_round = False
+#     return render_template('Question/start.html')
 @Question_bp.route('/start')
 def start():
     global question_ids, current_idx, current_answer, current_is_good, answered_this_round
-    question_ids = [w.id for w in Weetje.query.order_by(Weetje.id).all()]
+
+    # Haal alle weetje IDs op en schud ze door elkaar
+    question_ids = [w.id for w in Weetje.query.with_entities(Weetje.id).all()]
+    random.shuffle(question_ids)
+
     current_idx = 0
     current_answer = None
     current_is_good = None
     answered_this_round = False
+
     return render_template('Question/start.html')
+
 
 @Question_bp.route('/question')
 def question():

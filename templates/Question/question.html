@@ -1,50 +1,47 @@
-<!doctype html>
-<html>
-  <head>
-    <title>Vraag {{ question.id }}</title>
-    <meta charset="utf-8">
-  </head>
-  <body>
-    <!-- QUESTION SCREEN -->
-    <div id="q-screen">
-      <h2>Vraag {{ question.id }}</h2>
-      <p>{{ question.Weetje }}</p>
-      <p><em>Wacht op je antwoord vanaf de Pico…</em></p>
-    </div>
+{% extends 'basegame.html' %}
 
-    <!-- RESULT SCREEN (hidden until answer arrives) -->
-    <div id="r-screen" style="display:none;">
-      <h2 id="result-text"></h2>
-      <p id="chosen"></p>
-      <a id="next-btn" href="{{ url_for('question.question') }}">
-        <button>Volgende vraag</button>
-      </a>
-    </div>
+{% block content %}
+<div class="container text-center mt-5">
+  <!-- Vraag-scherm -->
+  <div id="q-screen">
+    <h2>Vraag {{ question.id }}</h2>
+    <p class="lead">{{ question.Weetje }}</p>
+    <p><em>Wacht op je antwoord vanaf de Pico…</em></p>
+  </div>
 
-    <script>
-      // Poll /answer every second until Pico posts
-      const poll = () => {
-        fetch('/question/answer')
-          .then(r => r.json())
-          .then(data => {
-            if (data.has_answer) {
-              // hide question
-              document.getElementById('q-screen').style.display = 'none';
-              // show result
-              document.getElementById('r-screen').style.display = 'block';
-              document.getElementById('result-text').textContent =
-                data.is_good
-                  ? '✅ Goed gedaan!'
-                  : '❌ Jammer, niet goed.';
-              document.getElementById('chosen').textContent =
-                `Je koos “${data.response}”.`;
-            }
-          })
-          .catch(console.error);
-      };
+  <!-- Resultaat-scherm (verborgen totdat antwoord binnenkomt) -->
+  <div id="r-screen" style="display:none;">
+    <h2 id="result-text" class="mt-4"></h2>
+    <p id="chosen" class="mb-4"></p>
+    <a id="next-btn" href="{{ url_for('question.question') }}">
+      <button class="btn btn-primary btn-lg">Volgende vraag</button>
+    </a>
+  </div>
+</div>
 
-      // start polling
-      setInterval(poll, 1000);
-    </script>
-  </body>
-</html>
+<script>
+  // Vraag elke seconde aan server of er een antwoord is
+  const poll = () => {
+    fetch('/question/answer')
+      .then(r => r.json())
+      .then(data => {
+        if (data.has_answer) {
+          // Vraag verbergen
+          document.getElementById('q-screen').style.display = 'none';
+          // Resultaat tonen
+          document.getElementById('r-screen').style.display = 'block';
+          document.getElementById('result-text').textContent =
+            data.is_good
+              ? '✅ Goed gedaan!'
+              : '❌ Jammer, niet goed.';
+          document.getElementById('chosen').textContent =
+            `Je koos “${data.response}”.`;
+        }
+      })
+      .catch(console.error);
+  };
+
+  // Start polling elke seconde
+  setInterval(poll, 1000);
+</script>
+{% endblock %}

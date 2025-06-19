@@ -12,7 +12,7 @@ class BehandelingForm(FlaskForm):
     Categorie = SelectField(
         'Categorie behandeling',
         choices=[
-            ('Radiologie', 'Radiologie'),
+            ('Algemeen', 'Algemeen'),
             ('Cardiologie', 'Cardiologie'),
             ('levertransplantatie', 'levertransplantatie')
         ],

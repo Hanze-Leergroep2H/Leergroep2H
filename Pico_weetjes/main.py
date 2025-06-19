@@ -4,9 +4,9 @@ import urequests
 from machine import Pin
 
 # ————— CONFIGURATION —————
-SSID = 'saron'
-PASSWORD = 'tynaarlo'
-SERVER_BASE = 'http://192.168.178.33:3000/question'
+SSID = 'Galaxy A53 5G B4E6'
+PASSWORD = 'hoihoihoi'
+SERVER_BASE = 'http://192.168.177.71:3000/question'
 BUTTON_A_PIN = 14
 BUTTON_B_PIN = 15
 HEALTH_INTERVAL = 20  # seconds

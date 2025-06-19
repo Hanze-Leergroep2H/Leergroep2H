@@ -1,22 +1,28 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1>Welkom op de website van Reatrix</h1>
+<h1>Welkom op de website van Reatrix!</h1>
 <p>Reatrix is een door studenten ontwikkeld reactie- en afleidingspel. 
   Het is ontwikkeld voor kinderen en jongeren die in het ziekenhuis zitten voor een Behandeling. <br><br>
 
   Hoe het werkt:
   De patiënt krijgt een een weetje te zien over Beatrix kinderziekenhuis Groningen en kan deze beantwoorden met waar of nietwaar. 
   Op deze manier leren ze iets over het ziekenhuis, zijn medewerkers en de Behandeling die de patiënt zal ondergaan.
-  </p>
-<div class="row">
-      <div class="thumbnail">
-        <a href="static\images\kinderziekenhuis3.png">
-          <img src="static\images\kinderziekenhuis3.png" alt="Fjords" style="width:70%">
-          <div class="caption">
-            <p>Kikker</p>
-          </div>
-        </a>
-      </div>
-    </div>
+</p>
+
+<div class="row align-items-center mt-4">
+  <!-- Afbeelding links -->
+  <div class="col-md-6 text-center">
+    <a href="static/images/kinderziekenhuis3.png">
+      <img src="static/images/kinderziekenhuis3.png" alt="Kikker" style="width:100%" class="img-fluid">
+    </a>
   </div>
+
+  <!-- Grote knop rechts van de afbeelding -->
+  <div class="col-md-6 text-center">
+    <a href="http://127.0.0.1:3000/question/start" 
+       class="btn btn-primary py-4 px-5 fs-1 fw-bold">
+       Start met spelen!
+    </a>
+  </div>
+</div>
 {% endblock %}
